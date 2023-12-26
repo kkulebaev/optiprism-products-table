@@ -6,8 +6,12 @@ import { useStoreProducts } from './stores/storeProducts.ts'
 import { storeToRefs } from 'pinia'
 
 const storeProduct = useStoreProducts()
-const { addFilter, removeFilter, updateCategories, updateProductSearchString } = storeProduct
-const { categories, productSearchString, filteredProducts } = storeToRefs(storeProduct)
+const { addFilter, removeFilter, updateCategories, updateProductSearchString, fetchProducts } =
+  storeProduct
+const { categories, productSearchString, filteredProducts, cascaderOptions, isLoading } =
+  storeToRefs(storeProduct)
+
+fetchProducts()
 </script>
 
 <template>
@@ -18,6 +22,7 @@ const { categories, productSearchString, filteredProducts } = storeToRefs(storeP
         <TableFilters
           :categories="categories"
           :product-search-string="productSearchString"
+          :cascader-options="cascaderOptions"
           @add-filter="addFilter"
           @remove-filter="removeFilter"
           @update:categories="updateCategories"
@@ -25,7 +30,7 @@ const { categories, productSearchString, filteredProducts } = storeToRefs(storeP
         />
       </template>
 
-      <TableProducts :filtered-products="filteredProducts" />
+      <TableProducts :filtered-products="filteredProducts" :is-loading="isLoading" />
     </ElCard>
   </main>
 </template>

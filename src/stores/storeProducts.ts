@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Categories, Predicate, Product, ProductFilter } from '../types/types'
-import { PRODUCTS } from '../server/data'
+import { mapCategories } from '../utils/mapCategories.ts'
 
 /* Store создан исключительно в демонстрационных целях, в реальном приложении, скорее всего, эти данные не поместил бы в стор */
 export const useStoreProducts = defineStore('products', () => {
-  const products = ref(PRODUCTS)
+  const products = ref<Product[]>([])
+  const isLoading = ref(false)
 
   const categories = ref<Categories | null>(null)
   const productSearchString = ref<string | null>(null)
@@ -16,15 +17,33 @@ export const useStoreProducts = defineStore('products', () => {
     return products.value.filter(item => __predicates.every(p => p(item)))
   })
 
+  const cascaderOptions = computed(() => mapCategories(products.value))
+
   return {
     categories,
     productSearchString,
     filteredProducts,
+    cascaderOptions,
+    isLoading,
 
+    fetchProducts,
     addFilter,
     removeFilter,
     updateCategories,
     updateProductSearchString,
+  }
+
+  function fetchProducts() {
+    isLoading.value = true
+
+    fetch('http://localhost:5173/api/products')
+      .then(res => res.json())
+      .then(response => {
+        products.value = response
+      })
+      .finally(() => {
+        isLoading.value = false
+      })
   }
 
   function __searchStringPredicate(item: Product): boolean {

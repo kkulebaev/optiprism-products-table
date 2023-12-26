@@ -1,5 +1,4 @@
-import type { Product } from '../types/types.ts'
-import { mapCategories } from '../utils/mapCategories.ts'
+import type { Product } from '../types/types'
 
 export const PRODUCTS: Product[] = [
   {
@@ -47,5 +46,3 @@ export const PRODUCTS: Product[] = [
     category: ['TV', 'LG', "43''"],
   },
 ]
-
-export const CASCADER_OPTIONS = mapCategories(PRODUCTS)

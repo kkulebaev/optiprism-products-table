@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { CASCADER_OPTIONS } from '../server/data'
 import { capitalize } from '../utils/capitalize'
 import {
   CascaderProps,
@@ -12,10 +11,12 @@ import {
   ElSpace,
 } from 'element-plus'
 import type { Categories, ProductFilter } from '../types/types'
+import { CascaderOption } from 'element-plus/es/components/cascader-panel/src/node'
 
 interface IProps {
   categories: Categories | null
   productSearchString: string | null
+  cascaderOptions: CascaderOption[]
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
@@ -69,7 +70,7 @@ const cascaderProps: CascaderProps = {
         size="large"
         separator=" > "
         placeholder="Category"
-        :options="CASCADER_OPTIONS"
+        :options="cascaderOptions"
         :props="cascaderProps"
         :clearable="true"
         :collapse-tags="true"
