@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { CASCADER_OPTIONS } from './data'
+import { CASCADER_OPTIONS } from '../server/data'
 import { capitalize } from '../utils/capitalize'
 import {
   CascaderProps,
@@ -11,7 +11,7 @@ import {
   ElSelect,
   ElSpace,
 } from 'element-plus'
-import type { Categories, ProductFilter } from '../types/types.ts'
+import type { Categories, ProductFilter } from '../types/types'
 
 interface IProps {
   categories: Categories | null

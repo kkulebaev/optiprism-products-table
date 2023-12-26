@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Categories, Predicate, Product, ProductFilter } from '../types/types'
-import { PRODUCTS } from '../components/data'
+import { PRODUCTS } from '../server/data'
 
 /* Store создан исключительно в демонстрационных целях, в реальном приложении, скорее всего, эти данные не поместил бы в стор */
 export const useStoreProducts = defineStore('products', () => {

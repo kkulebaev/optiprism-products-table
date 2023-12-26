@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",
+    "miragejs": "^0.1.48",
     "prettier": "3.1.1",
     "typescript": "^5.2.2",
     "unplugin-element-plus": "^0.8.0",
