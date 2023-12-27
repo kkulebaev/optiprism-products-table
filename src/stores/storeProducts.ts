@@ -9,7 +9,7 @@ export const useStoreProducts = defineStore('products', () => {
   const products = ref<Product[]>([])
   const isLoading = ref(false)
 
-  const categories = ref<Categories | null>(null)
+  const categoryGroups = ref<Categories[]>([])
   const searchStrings = ref<string[]>([])
 
   const __predicates: Predicate[] = [__searchStringPredicate, __categoriesPredicate]
@@ -21,7 +21,7 @@ export const useStoreProducts = defineStore('products', () => {
   const cascaderOptions = computed(() => mapCategories(products.value))
 
   return {
-    categories,
+    categoryGroups,
     searchStrings,
     filteredProducts,
     cascaderOptions,
@@ -55,10 +55,14 @@ export const useStoreProducts = defineStore('products', () => {
   }
 
   function __categoriesPredicate(item: Product): boolean {
-    if (!categories.value?.length) return true
-    return categories.value.some(x =>
-      x.every((cat, index) => cat.toLowerCase() === item.category[index].toLowerCase())
-    )
+    if (!categoryGroups.value?.length) return true
+    return categoryGroups.value.every(catGroup => {
+      if (!catGroup.length) return true
+
+      return catGroup.some(x =>
+        x.every((cat, index) => cat.toLowerCase() === item.category[index]?.toLowerCase())
+      )
+    })
   }
 
   function addFilter(filter: ProductFilter) {
@@ -73,7 +77,7 @@ export const useStoreProducts = defineStore('products', () => {
   }
 
   function __addFilterCategory() {
-    categories.value = []
+    categoryGroups.value.push([])
   }
 
   function __addFilterProduct() {
@@ -83,7 +87,7 @@ export const useStoreProducts = defineStore('products', () => {
   function removeFilter(filter: ProductFilter, index: number) {
     switch (filter) {
       case 'category':
-        __removeFilterCategory()
+        __removeFilterCategory(index)
         break
       case 'product':
         __removeFilterProduct(index)
@@ -91,16 +95,16 @@ export const useStoreProducts = defineStore('products', () => {
     }
   }
 
-  function __removeFilterCategory() {
-    categories.value = null
+  function __removeFilterCategory(index: number) {
+    categoryGroups.value.splice(index, 1)
   }
 
   function __removeFilterProduct(index: number) {
     searchStrings.value.splice(index, 1)
   }
 
-  function updateCategories(newCategories: Categories | null) {
-    categories.value = newCategories
+  function updateCategories(newCategories: Categories[]) {
+    categoryGroups.value = newCategories
   }
 
   function updateProductSearchString(searchStr: string[]) {

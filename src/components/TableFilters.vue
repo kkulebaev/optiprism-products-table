@@ -14,7 +14,7 @@ import type { Categories, ProductFilter } from '../types/types'
 import { CascaderOption } from 'element-plus/es/components/cascader-panel/src/node'
 
 interface IProps {
-  categories: Categories | null
+  categoryGroups: Categories[]
   searchStrings: string[]
   cascaderOptions: CascaderOption[]
 }
@@ -24,16 +24,16 @@ const props = withDefaults(defineProps<IProps>(), {})
 const emit = defineEmits<{
   (event: 'add-filter', filter: ProductFilter): void
   (event: 'remove-filter', filter: ProductFilter, index: number): void
-  (event: 'update:categories', categories: (typeof props)['categories']): void
+  (event: 'update:category-groups', categories: (typeof props)['categoryGroups']): void
   (event: 'update:search-strings', searchStr: (typeof props)['searchStrings']): void
 }>()
 
-const curCategories = computed({
+const curCategoryGroups = computed({
   get() {
-    return props.categories
+    return props.categoryGroups
   },
   set(value) {
-    emit('update:categories', value)
+    emit('update:category-groups', value)
   },
 })
 
@@ -64,9 +64,9 @@ const cascaderProps: CascaderProps = {
         :value="item"
       />
     </ElSelect>
-    <ElSpace v-if="curCategories">
+    <ElSpace v-for="(_, i) in curCategoryGroups">
       <ElCascader
-        v-model="curCategories"
+        v-model="curCategoryGroups[i]"
         size="large"
         separator=" > "
         placeholder="Category"
@@ -76,7 +76,7 @@ const cascaderProps: CascaderProps = {
         :collapse-tags="true"
         :collapse-tags-tooltip="true"
       />
-      <ElButton size="large" @click="emit('remove-filter', 'category', -1)"> X </ElButton>
+      <ElButton size="large" @click="emit('remove-filter', 'category', i)"> X </ElButton>
     </ElSpace>
 
     <ElSpace v-for="(_, i) in curProductSearchString">

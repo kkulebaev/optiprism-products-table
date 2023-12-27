@@ -8,7 +8,7 @@ import { storeToRefs } from 'pinia'
 const storeProduct = useStoreProducts()
 const { addFilter, removeFilter, updateCategories, updateProductSearchString, fetchProducts } =
   storeProduct
-const { categories, searchStrings, filteredProducts, cascaderOptions, isLoading } =
+const { categoryGroups, searchStrings, filteredProducts, cascaderOptions, isLoading } =
   storeToRefs(storeProduct)
 
 fetchProducts()
@@ -20,12 +20,12 @@ fetchProducts()
     <ElCard class="main__card">
       <template #header>
         <TableFilters
-          :categories="categories"
+          :category-groups="categoryGroups"
           :search-strings="searchStrings"
           :cascader-options="cascaderOptions"
           @add-filter="addFilter"
           @remove-filter="removeFilter"
-          @update:categories="updateCategories"
+          @update:category-groups="updateCategories"
           @update:product-search-string="updateProductSearchString"
         />
       </template>
