@@ -8,7 +8,7 @@ import { storeToRefs } from 'pinia'
 const storeProduct = useStoreProducts()
 const { addFilter, removeFilter, updateCategories, updateProductSearchString, fetchProducts } =
   storeProduct
-const { categories, productSearchString, filteredProducts, cascaderOptions, isLoading } =
+const { categories, searchStrings, filteredProducts, cascaderOptions, isLoading } =
   storeToRefs(storeProduct)
 
 fetchProducts()
@@ -21,7 +21,7 @@ fetchProducts()
       <template #header>
         <TableFilters
           :categories="categories"
-          :product-search-string="productSearchString"
+          :search-strings="searchStrings"
           :cascader-options="cascaderOptions"
           @add-filter="addFilter"
           @remove-filter="removeFilter"

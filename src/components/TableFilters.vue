@@ -15,7 +15,7 @@ import { CascaderOption } from 'element-plus/es/components/cascader-panel/src/no
 
 interface IProps {
   categories: Categories | null
-  productSearchString: string | null
+  searchStrings: string[]
   cascaderOptions: CascaderOption[]
 }
 
@@ -23,9 +23,9 @@ const props = withDefaults(defineProps<IProps>(), {})
 
 const emit = defineEmits<{
   (event: 'add-filter', filter: ProductFilter): void
-  (event: 'remove-filter', filter: ProductFilter): void
+  (event: 'remove-filter', filter: ProductFilter, index: number): void
   (event: 'update:categories', categories: (typeof props)['categories']): void
-  (event: 'update:product-search-string', searchStr: (typeof props)['productSearchString']): void
+  (event: 'update:search-strings', searchStr: (typeof props)['searchStrings']): void
 }>()
 
 const curCategories = computed({
@@ -39,10 +39,10 @@ const curCategories = computed({
 
 const curProductSearchString = computed({
   get() {
-    return props.productSearchString
+    return props.searchStrings
   },
   set(value) {
-    emit('update:product-search-string', value)
+    emit('update:search-strings', value)
   },
 })
 
@@ -76,17 +76,17 @@ const cascaderProps: CascaderProps = {
         :collapse-tags="true"
         :collapse-tags-tooltip="true"
       />
-      <ElButton size="large" @click="emit('remove-filter', 'category')"> X </ElButton>
+      <ElButton size="large" @click="emit('remove-filter', 'category', -1)"> X </ElButton>
     </ElSpace>
 
-    <ElSpace v-if="curProductSearchString !== null">
+    <ElSpace v-for="(_, i) in curProductSearchString">
       <ElInput
-        v-model="curProductSearchString"
+        v-model="curProductSearchString[i]"
         size="large"
         placeholder="Product"
         :clearable="true"
       />
-      <ElButton size="large" @click="emit('remove-filter', 'product')"> X </ElButton>
+      <ElButton size="large" @click="emit('remove-filter', 'product', i)"> X </ElButton>
     </ElSpace>
   </ElSpace>
 </template>

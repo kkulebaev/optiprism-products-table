@@ -10,7 +10,7 @@ export const useStoreProducts = defineStore('products', () => {
   const isLoading = ref(false)
 
   const categories = ref<Categories | null>(null)
-  const productSearchString = ref<string | null>(null)
+  const searchStrings = ref<string[]>([])
 
   const __predicates: Predicate[] = [__searchStringPredicate, __categoriesPredicate]
 
@@ -22,7 +22,7 @@ export const useStoreProducts = defineStore('products', () => {
 
   return {
     categories,
-    productSearchString,
+    searchStrings,
     filteredProducts,
     cascaderOptions,
     isLoading,
@@ -48,8 +48,10 @@ export const useStoreProducts = defineStore('products', () => {
   }
 
   function __searchStringPredicate(item: Product): boolean {
-    if (!productSearchString.value) return true
-    return item.product.toLowerCase().includes(productSearchString.value.toLowerCase())
+    if (!searchStrings.value.length) return true
+    return searchStrings.value.every(searchStr =>
+      item.product.toLowerCase().includes(searchStr.toLowerCase())
+    )
   }
 
   function __categoriesPredicate(item: Product): boolean {
@@ -75,16 +77,16 @@ export const useStoreProducts = defineStore('products', () => {
   }
 
   function __addFilterProduct() {
-    productSearchString.value = ''
+    searchStrings.value.push('')
   }
 
-  function removeFilter(filter: ProductFilter) {
+  function removeFilter(filter: ProductFilter, index: number) {
     switch (filter) {
       case 'category':
         __removeFilterCategory()
         break
       case 'product':
-        __removeFilterProduct()
+        __removeFilterProduct(index)
         break
     }
   }
@@ -93,15 +95,15 @@ export const useStoreProducts = defineStore('products', () => {
     categories.value = null
   }
 
-  function __removeFilterProduct() {
-    productSearchString.value = null
+  function __removeFilterProduct(index: number) {
+    searchStrings.value.splice(index, 1)
   }
 
   function updateCategories(newCategories: Categories | null) {
     categories.value = newCategories
   }
 
-  function updateProductSearchString(searchStr: string | null) {
-    productSearchString.value = searchStr
+  function updateProductSearchString(searchStr: string[]) {
+    searchStrings.value = searchStr
   }
 })
