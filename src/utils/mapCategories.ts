@@ -1,4 +1,4 @@
-import type { Product } from '../types/types.ts'
+import type { Product } from '../types/types'
 import { CascaderOption } from 'element-plus/es/components/cascader-panel/src/node'
 
 export function mapCategories(categories: Product[]) {

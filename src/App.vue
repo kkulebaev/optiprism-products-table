@@ -2,7 +2,7 @@
 import { ElCard, ElText } from 'element-plus'
 import TableProducts from './components/TableProducts.vue'
 import TableFilters from './components/TableFilters.vue'
-import { useStoreProducts } from './stores/storeProducts.ts'
+import { useStoreProducts } from './stores/storeProducts'
 import { storeToRefs } from 'pinia'
 
 const storeProduct = useStoreProducts()

@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { capitalize } from '../utils/capitalize'
-import {
-  CascaderProps,
-  ElButton,
-  ElCascader,
-  ElInput,
-  ElOption,
-  ElSelect,
-  ElSpace,
-} from 'element-plus'
+import type { CascaderOption, CascaderProps } from 'element-plus'
+import { ElButton, ElCascader, ElInput, ElOption, ElSelect, ElSpace } from 'element-plus'
 import type { Categories, ProductFilter } from '../types/types'
-import { CascaderOption } from 'element-plus/es/components/cascader-panel/src/node'
 
 interface IProps {
   categoryGroups: Categories[]

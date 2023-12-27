@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Categories, Predicate, Product, ProductFilter } from '../types/types'
-import { mapCategories } from '../utils/mapCategories.ts'
+import { mapCategories } from '../utils/mapCategories'
 import { apiClient } from '../api'
 
 /* Store создан исключительно в демонстрационных целях, в реальном приложении, скорее всего, эти данные не поместил бы в стор */

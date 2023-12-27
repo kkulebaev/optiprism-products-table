@@ -1,5 +1,5 @@
 import { apiInstance } from '../apiInstance'
-import { Product } from '../../types/types.ts'
+import type { Product } from '../../types/types'
 
 const PATH = '/products'
 
