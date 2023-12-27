@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Categories, Predicate, Product, ProductFilter } from '../types/types'
 import { mapCategories } from '../utils/mapCategories.ts'
+import { apiClient } from '../api'
 
 /* Store создан исключительно в демонстрационных целях, в реальном приложении, скорее всего, эти данные не поместил бы в стор */
 export const useStoreProducts = defineStore('products', () => {
@@ -36,10 +37,10 @@ export const useStoreProducts = defineStore('products', () => {
   function fetchProducts() {
     isLoading.value = true
 
-    fetch('http://localhost:5173/api/products')
-      .then(res => res.json())
-      .then(response => {
-        products.value = response
+    apiClient.products
+      .getProducts()
+      .then(({ data }) => {
+        products.value = data
       })
       .finally(() => {
         isLoading.value = false
