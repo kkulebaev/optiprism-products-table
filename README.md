@@ -1,18 +1,41 @@
-# Vue 3 + TypeScript + Vite
+# OptiPrism Products Table
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![Optiprism products table view](/src/assets/images/optiprism-products-table-view.png)
 
-## Recommended IDE Setup
+## Демо
+Развернул демонстрационную версию приложения https://optiprism-products-table.onrender.com
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Техническое задание
+[Описание технического задания](https://drive.google.com/file/d/1XSS29g5yt-hDA9-c4m19xmv55X-CY-eo/view?usp=sharing)
 
-## Type Support For `.vue` Imports in TS
+## Используемые технологии
+- Vue 3
+- TypeScript
+- Vite
+- Pinia (взята только для демонстрации, для реализации ТЗ в ней не было необходимости)
+- Mirage JS (для моков REST запросов к АПИ)
+- Element Plus (библиотека компонентов)
+- Axios (для удобной работы с запросами на сервер)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+## Пояснения к работе фильтров таблицы
+1. Фильтры таблицы связаны между друг другом по логическому `И`
+2. Фильтры категорий внутри одного селекта с категориями связаны по логическому `ИЛИ`
+***
+Пример запроса 1.  
+Категории - `Animals`  
+Поисковая строка - `b`
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+Выдаст результат всех животных в названии которых есть буква b
+***
+Пример запроса 2.  
+Категории - `Animals` или `Animals > Dogs > Toys`  
+Поисковая строка - `b`
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+Выдаст аналогичный результат, как в примере 1, так как в категориях связанность по `ИЛИ`
+***
+Пример запроса 3.  
+Категории - `Animals`  
+Категории - `TV`
+
+Выдаст пустой результат, потому что категория не может быть одновременно `Animals` И `TV`
+***
