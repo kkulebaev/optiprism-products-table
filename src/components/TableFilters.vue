@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { capitalize } from '../utils/capitalize'
-import type { CascaderOption, CascaderProps } from 'element-plus'
-import { ElButton, ElCascader, ElInput, ElOption, ElSelect, ElSpace } from 'element-plus'
-import type { Categories, ProductFilter } from '../types/types'
+import { ElButton, ElInput, ElOption, ElSelect, ElSpace } from 'element-plus'
+import type { BaseCascaderOption, Categories, ProductFilter } from '../types/types'
+import BaseCascader from './BaseCascader/BaseCascader.vue'
 
 interface IProps {
   categoryGroups: Categories[]
   searchStrings: string[]
-  cascaderOptions: CascaderOption[]
+  cascaderOptions: BaseCascaderOption[]
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
@@ -39,11 +39,6 @@ const curProductSearchString = computed({
 })
 
 const FILTERS_OPTIONS: ProductFilter[] = ['category', 'product']
-
-const cascaderProps: CascaderProps = {
-  multiple: true,
-  checkStrictly: true,
-}
 </script>
 
 <template>
@@ -57,17 +52,7 @@ const cascaderProps: CascaderProps = {
       />
     </ElSelect>
     <ElSpace v-for="(_, i) in curCategoryGroups">
-      <ElCascader
-        v-model="curCategoryGroups[i]"
-        size="large"
-        separator=" > "
-        placeholder="Category"
-        :options="cascaderOptions"
-        :props="cascaderProps"
-        :clearable="true"
-        :collapse-tags="true"
-        :collapse-tags-tooltip="true"
-      />
+      <BaseCascader v-model="curCategoryGroups[i]" :options="cascaderOptions" />
       <ElButton size="large" @click="emit('remove-filter', 'category', i)"> X </ElButton>
     </ElSpace>
 

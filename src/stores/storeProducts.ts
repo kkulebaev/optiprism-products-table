@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import type { Categories, Predicate, Product, ProductFilter } from '../types/types'
-import { mapCategories } from '../utils/mapCategories'
+import type {
+  BaseCascaderOption,
+  Categories,
+  Predicate,
+  Product,
+  ProductFilter,
+} from '../types/types'
 import { apiClient } from '../api'
 
 /* Store создан исключительно в демонстрационных целях, в реальном приложении, скорее всего, эти данные не поместил бы в стор */
@@ -111,3 +116,32 @@ export const useStoreProducts = defineStore('products', () => {
     searchStrings.value = searchStr
   }
 })
+
+function mapCategories(categories: Product[]): BaseCascaderOption[] {
+  const result: BaseCascaderOption[] = []
+
+  categories.forEach(category => {
+    let currentLevel: BaseCascaderOption[] = result
+
+    category.category.forEach(label => {
+      const existingCategory = currentLevel.find(item => item.value === label.toLowerCase())
+
+      if (existingCategory && existingCategory.children) {
+        currentLevel = existingCategory.children
+      } else {
+        const newCategory: BaseCascaderOption = {
+          value: label.toLowerCase(),
+          label: label,
+          children: [],
+        }
+
+        currentLevel.push(newCategory)
+        if (newCategory.children) {
+          currentLevel = newCategory.children
+        }
+      }
+    })
+  })
+
+  return result
+}
