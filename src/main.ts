@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import './style.css'
+import './assets/style/style.css'
 import App from './App.vue'
 import { initMirageServer } from './server/server'
 import { ElLoading } from 'element-plus'

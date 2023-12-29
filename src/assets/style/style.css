@@ -1,3 +1,5 @@
+@import './reset.css';
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -11,14 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
 }
 
 #app {
@@ -28,4 +25,3 @@ body {
   padding: 2rem;
   display: flex;
 }
-
